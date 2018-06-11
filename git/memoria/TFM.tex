@@ -1,0 +1,526 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                       CARREGA DE LA CLASSE DE DOCUMENT                      %
+%                                                                             %
+% Les opcions admissibles son:                                                %
+%      12pt / 11pt            (cos dels tipus de lletra; no feu servir 10pt)  %
+%                                                                             %
+% catalan/spanish/english     (llengua principal del treball)                 %
+%                                                                             % 
+% french/italian/german...    (si necessiteu fer servir alguna altra llengua) %
+%                                                                             %
+% listoffigures               (El document inclou un Index de figures)        %
+% listoftables                (El document inclou un Index de taules)         %
+% listofquadres               (El document inclou un Index de quadres)        %
+% listofalgorithms            (El document inclou un Index d'algorismes)      %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,spanish,listoffigures,listoftables]{tfgetsinf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                     CODIFICACIO DEL FITXER FONT                             %
+%                                                                             %
+%    windows fa servir normalment 'ansinew'                                   %
+%    amb linux es possible que siga 'latin1' o 'latin9'                       %
+%    Pero el mes recomanable es fer servir utf8 (unicode 8)                   %
+%                                          (si el vostre editor ho permet)    % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[utf8]{inputenc} 
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{placeins}
+\usepackage{multirow}
+
+\graphicspath{{/Users/sun/Documents/big5/memoria/images/}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                        ALTRES PAQUETS I DEFINICIONS                         %
+%                                                                             %
+% Carregueu aci els paquets que necessiteu i declareu les comandes i entorns  %
+%                                          (aquesta seccio pot ser buida)     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                        DADES DEL TREBALL                                    %
+%                                                                             %
+% titol, alumne, tutor i curs academic                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Reconocimiento de la personalidad en Twitter \\
+				}
+\author{Pilar S\'aez Hern\'andez}
+\tutor{Francisco Rangel}
+\curs{2017-2018}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                     PARAULES CLAU/PALABRAS CLAVE/KEY WORDS                  %
+%                                                                             %
+% Independentment de la llengua del treball, s'hi han d'incloure              %
+% les paraules clau i el resum en els tres idiomes                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\keywords{????, ?????????, ????, ?????????????????} % Paraules clau 
+         {Aprendizaje Autom\'atico, Redes neuronales, vectores de soporte}              % Palabras clave
+         {Machine Learning, Artificial Neural Networks, Support Vector Machine}        % Key words
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                              INICI DEL DOCUMENT                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% Next three lines are for put at the top elements with [t!]
+%
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+%
+
+\newlength\mtl
+\makeatletter
+\newcommand{\mtlistfiles}{%
+\par\noindent
+%%-- for measuring
+\@for\@currname:=\@filelist\do{%
+\setbox0=\hbox{\@currname}%
+\ifdim\wd0>\mtl\relax\mtl=\wd0\fi}%
+%%-- formating list
+\@for\@currname:=\@filelist\do{%
+\makebox[\mtl][l]{\@currname}
+     \expandafter\ifx\csname ver@\@currname\endcsname\relax
+     \else\@spaces\csname ver@\@currname\endcsname\fi
+     \par\noindent}}
+\makeatother
+\listfiles
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              RESUMS DEL TFG EN VALENCIA, CASTELLA I ANGLES                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{abstract}[spanish]
+????
+\end{abstract}
+\begin{abstract}[english]
+????
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                              CONTINGUT DEL TREBALL                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                  INTRODUCCIO                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Introducci\'on}
+
+\section{Motivaci\'on}
+%Conceptos: author profiling, procesamiento del lenguaje natural, transformaci\'on digital,
+
+En la actualidad la aplicaci\'on de la tecnolog\'ia en la mayor\'ia de los aspectos de la sociedad humana ha generado un cambio profundo en el comportamiento de organizaciones y personas, afectado a los procesos organizativos, pol\'iticos, las estructuras socio-econ\'omicas y comunicaciones interpersonales. Todo est\'a en constante cambio, y la adaptaci\'on y el aprovechamiento de este es lo que se denomina \textit{Transformaci\'on Digital}.
+
+La \textit{Transformaci\'on Digital} genera, para las organizaciones, un mundo de oportunidades y retos as\'i como multitud de vulnerabilidades.  
+Estas organizaciones y las personas que las dirigen se esfuerzan por comprender su entorno para desarrollar estrategias que mejoren su desempe\~no organizacional y mantengan su ventaja sobre la competencia. La creciente complejidad, el ritmo y la multitud de desaf\'ios y oportunidades a los que se enfrentan las organizaciones crean necesidades cada vez mayores de innovaci\'on, automatizaci\'on y la capacidad de obtener valor a partir de los datos con el fin de mantenerse \'agiles y flexibles para poder asumir riesgos en el mundo cambiante en el que vivimos.
+
+\textit{Autoritas Consulting} es una de las organizaciones que dise\~na estrategias para aprovechar las ventajas que propone este nuevo paradigma de comunicaci\'on.\\
+Su actividad se centra en el sector de la consultor\'ia, mediante la generaci\'on de inteligencia a partir de datos sociales provenientes de fuentes abiertas. El objetivo es conocer el entorno en el cual opera cada cliente (su reputaci\'on, su competencia, la identificaci\'on de medios influyentes, la gesti\'on de crisis,... ) y as\'i ayudar en la toma de decisiones con conocimiento de causa.
+
+Una de las herramientas desarrolladas por \textit{Autoritas Consulting} enmarcadas en este \'ambito se denomina Cosmos. Cosmos es el conjunto de m\'odulos de software para la captura, explotaci\'on y an\'alisis de informaci\'on en Internet. Son herramientas integradas en la l\'ogica de escucha inteligente y dise\~nadas espec\'ificamente para dar soporte a cada una de las fases del ciclo de inteligencia, lo que finalmente permitir\'a extraer conocimiento y resultados que ser\'an determinantes en la toma de decisiones.
+
+En la figura (\ref{fig:cosmos}) se puede ver el ciclo completo de la herramienta. Desde el momento de la planificaci\'on pasando por el an\'alisis de la informaci\'on hasta que se propone la acci\'on o acciones a llevar a cabo.
+
+\begin{figure}[h!]
+    \centering
+%    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=\textwidth]{ciclo-cosmos}
+        \caption{Ciclo completo Cosmos}
+        \label{fig:cosmos}
+%    \end{subfigure}
+ \end{figure}
+ 
+La aportaci\'on de este trabajo profundiza en la t\'ecnica conocida como
+\textit{Author Profiling}, que es un campo de investigaci\'on transversal a diferentes disciplinas como la ling\"u\'istica (computacional), procesamiento del lenguaje natural, aprendizaje autom\'atico, recuperaci\'on de informaci\'on, neurolog\'ia, marketing,etc y que b\'asicamente trata de averiguar la m\'axima informaci\'on personal posible de un autor o usuario a partir de lo que an\'onimamente escribe: edad, g\'enero, idioma nativo, perfil emocional, rasgos de personalidad.
+
+
+\section{Objetivos}
+El objetivo principal es desarrollar un ciclo completo de predicci\'on para cada una de las caracter\'isticas que definen la clasificaci\'on de personalidad \textit{big five} (clasificaci\'on que se defnir\'a m\'as adelante) y su integraci\'on en la herramienta \textit{Cosmos}.\\
+
+\begin{figure}[h!]
+    \centering
+%    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=\textwidth]{flowchart}
+        \caption{Diagrama de la implementaci\'on}
+        \label{fig:flowchart}
+%   \end{subfigure}
+ \end{figure}
+
+Como punto de partida del proyecto, se dispone de un conjunto de textos obtenidos de la red social \textit{Twitter} cuyos usuarios han sido sometidos a un test de personalidad. Por lo que se dispone tambi\'en de la clasificaci\'on necesaria para crear un modelo de predicci\'on mediante t\'ecnicas de aprendizaje supervisado.
+
+Si nos fijamos en el esquema de \textit{Cosmos} definido en la figura \subref{fig:cosmos}, este nuevo m\'odulo para el reconocimiento de la personalidad se incluir\'ia en la fase de an\'alisis. Por lo tanto el m\'odulo ha de estar preparado para la escucha activa de informaci\'on proveniente de Twitter y ser capaz de analizar la misma en un tiempo prudencial, as\'i como la muestra de resultados para que posteriormente se determinen las acciones necesarias.\\
+
+En la figura \ref{fig:flowchart} representa el diagrama con el ciclo completo desarrollado en este proyecto. Se puede dividir el desarrollo en dos grandes secciones, por un lado el proceso que compone la extracci\'onn, transformaci\'on y carga (ETL) y la generaci\'on de modelos y por otra la implementaci\'on del m\'odulo que analiza y predice los rasgos de personalidad dado un texto de entrada.
+
+
+%Programa JAVA para la creaci\'on de \textit{feautres} y la predicci\'on de las cinco caracter\'isticas usando los modelos generados.
+
+%Datos obtenidos de Author Profiling Shared Task organised at PAN 2015,  This year?s task aims at identifying age, gender, and personality traits of Twitter users. With the help of an online person- ality test1 a dataset was collected from Twitter with annotations about age, gender, and the Big Five personality traits in the four languages English, Spanish, Italian, and Dutch
+
+
+
+\section{Estructura de la mem\'oria}
+\begin{itemize}
+\item {Estado de la cuesti\'on y fundamentaci\'on te\'orica}
+\item {An\'alisis de los datos y Metodolog\'ia propuesta}
+\item {Explotaci\'on y visualizaci\'on}
+\item {Conclusiones}
+\end{itemize}
+????? ????????????? ????????????? ????????????? ????????????? ????????????? 
+
+%\section{Notes bibliografiques} %%%%% Opcional
+
+%????? ????????????? ????????????? ????????????? ????????????? ?????????????
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         CAPITOLS (tants com calga)                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\chapter{??? ???? ??????}
+
+%????? ????????????? ????????????? ????????????? ????????????? ?????????????
+
+%\section{?? ???? ???? ? ?? ??}
+
+%????? ????????????? ????????????? ????????????? ????????????? ?????????????
+
+\chapter{Fundamentaci\'on te\'orica y Estado de la cuesti\'on}
+En este cap\'itulo se presenta un resumen sobre los estudios previos realizados o que podr\'ian estar relacionados con el actual, as\'i como la definici\'on de los conceptos te\'oricos que sirven de fundamentaci\'on para el trabajo presentado.
+
+\section{Aprendizaje autom\'atico}
+Aprendizaje autom\'atico o \textit{Machine Learning} es un subcampo dentro de Computer Science muy relacionado con la Inteligencia Artificial y el reconocimiento de patrones[WIKML].\newline
+Tambi\'en est\'a muy relacionado con t\'ecnicas estad\'isticas para el c\'alculo de modelos de predicci\'on y la optimizaci\'on matem\'atica.\newline
+Es la disciplina que explora la construcci\'on y el estudio de algoritmos que aprenden a partir de los datos y permite hacer predicciones sobre los mismos.\newline
+Los algoritmos se utilizan para crear/estimar modelos a partir de muestras (de aprendizaje). Y estos modelos se utilizan para realizar predicciones o tomar decisiones.
+\subsection{Tipos de aprendizaje}
+Las tareas o problemas a los que pueden aplicarse las distintas t\'ecnicas de aprendizaje autom\'atico son:
+\begin{itemize}
+\item \textbf{Aprendizaje supervisado o \textit{Supervised learning}} Se dispone del valor de la variable salida (etiqueta o valor). 
+\item \textbf{Aprendizaje no supervisado o \textit{Unsupervised learning}} No se dispone de la variable salida. Las muestras no est\'an etiquetadas como pertenecientes a ninguna clase o no van acompa\~nadas de un valor a predecir.
+\item \textbf{Aprendizaje por refuerzo o \textit{Reinforcement learning}} Aqu\'i el aprendizaje consiste en encontrar las acciones a realizar seg\'un la situaci\'on con el objetivo de maximizar una recompensa. El algoritmo no dispone de la variable de salida, debe descubrirla mediante un proceso de prueba y error. Existe una serie de estados posibles y unas acciones a realizar, el algoritmo interact\'ua con el entorno explorando posibilidades (distintas acciones) y rectifica o consolida sus reglas internas seg\'un la recompensa obtenida. La recompensa no siempre se recibe despu\'es de cada acci\'on. Muchas veces viene tras una serie de acciones.
+\end{itemize}
+\subsection{Aprendizaje supervisado}
+Los modelos se estiman aprendiendo reglas que permiten obtener la variable salida a partir de la(s) variable(s) de entrada. El aprendizaje supervisado se a aplica dos tareas:
+\begin{itemize}
+\item \textbf{Clasificaci\'on} Las muestras pertenecen a dos o m\'as clases. Se utilizan muestras etiquetadas para el aprendizaje. El modelo se utiliza despu\'es para etiquetar muestras de las cuales no se conoce a qu\'e clase pertenecen.
+Un buen ejemplo es la clasificaci\'on de d\'igitos manuscritos.
+\item \textbf{Regresi\'on} La variable salida es uno o m\'as valores reales (continuos).
+Un buen ejemplo es la predicci\'on de la temperatura a diferentes horas del d\'ia.
+\end{itemize}
+\subsection{Reconocimiento de patrones}
+El reconocimiento de patrones es la rama dentro del aprendizaje autom\'atico dedicada al desarrollo de algoritmos para descubrir, de manera autom\'atica, patrones de regularidad en los datos. Y aprovechar las regularidades detectadas para tareas como clasificaci\'on de los datos en diferentes categor\'ias o clases [4].
+\subsection{Ejemplo de problema de clasificaci\'on mediante aprendizaje supervisado y reconocimiento de patrones}
+
+El objetivo en la clasificaci\'on de d\'igitos manuscritos es, dada una imagen, decir qu\'e d\'igito es.
+La variable salida es un valor entero del 0 al 9.\newline
+El problema, nada trivial, es entrenar un sistema capaz de determinar a qu\'e d\'igito corresponde una imagen ya preprocesada, es decir, normalizada y con el d\'igito centrado pero sin etiquetar.\newline
+Para entrenar el sistema necesitaremos de un conjunto de muestras etiquetadas (training set), es decir, un conjunto de im\'agenes (muestras d-dimensionales) y su correspondiente variable salida, un entero del 0 al 9 en este caso.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{mnistdigits}
+        \caption{D\'igitos manuscritos}
+        \label{fig:mnistdigist}
+    \end{subfigure}
+ \end{figure}
+
+
+\noindent $X = \{{x_1,x_2,...,x_N}\}$ 
+	       \hfill Muestras con las variables de entrada: $x_i \in \mathbb{R}^d$ \\
+\noindent \hfill$t = \{{t_1,t_2,...,t_N}\}$
+                \hfill \textit{Target vector} $t_i \in \{0,1,2,...,9\}$ \\
+\noindent \hfill$N$ es el tama\~no del \textit{training set}
+
+El resultado de entrenar/aprender un algoritmo/modelo ser\'a disponer de una funci\'on que dada una muestra de entrada obtenga el valor ?correcto? de la variable de salida.
+$$\hat{t} = y ( \hat{x} )$$
+
+\subsection{Posibles problemas del proceso de aprendizaje}
+\begin{itemize}
+\item \textbf{\textit{Over-fitting}} 
+El objetivo de todo algoritmo de aprendizaje es la generalizaci\'on, es decir, la capacidad de clasificar correctamente muestras que no se utilizaron durante el proceso de aprendizaje. El problema de \textit{over-fitting} o sobre aprendizaje aparece cuando el algoritmo ha aprendido a predecir la clase o el valor de salida correspondiente a las muestras de aprendizaje de manera demasiado precisa, el error de clasificaci\'on o regresi\'on para el training set es muy bajo, pero muy alto para las muestras del test set.
+\item \textbf{High-dimensionality}
+Cuando las muestras de aprendizaje son vectores de muchas dimensiones aparecen dos problemas: \\
+que los c\'alculos a realizar por muchos algoritmos de aprendizaje son caros en tiempo de c\'omputo y que muchas t\'ecnicas ven reducida su capacidad de aprendizaje.\\
+
+En muchos casos es necesario realizar un preproceso a los datos (feature extraction) con objeto de s\'olo trabajar con las variables de entrada que el experto humano considera servir\'an mejor para la tarea de clasificaci\'on, regresi\'on, identificaci\'on o predicci\'on. 
+\end{itemize}
+
+\section{Evaluaci\'on del error}
+\subsection{Funci\'on de error a minimizar} \label{sssec:error}
+La funci\'on de error debe ser siempre no negativa. Ser\'a igual a cero si el valor a predecir $\hat{f_i}$ coincide con el valor objetivo $f_i$.
+%For personality recognition the Root Mean Square Error (RMSE) for each trait in each language was computed using Equation 1, where n denotes the number of authors, fi the value for trait i, and fi the predicted one.
+
+$$RMSE = \sqrt{ \displaystyle\frac{\sum_{i=1}^{n}(\hat{f_i}-f_i)^2}{n}}$$
+
+Esta funci\'on es la ra\'iz cuadrada de la suma de los cuadrados de la diferencia entre la estimaci\'on y la funci\'on a  predecir dividida entre el total de muestras. Se conoce como \textit{root-mean-square error}.
+
+El problema consiste encontrar el valor de$\hat{f_i}$ para el cual el $\textit{\textbf{RMSE}}$ es lo m\'as peque\~no posible.
+
+\section{Reconocimiento de la personalidad utilizando la Teor\'ia de los Cinco Grandes}
+La personalidad puede definirse por medio de cinco rasgos utilizando la Teor\'ia de los Cinco Grandes [\ref{bib:cos}] o  \textit{Big Five}, que es la m\'as aceptada en psicolog\'ia. Los cinco rasgos incluidos en esta teor\'ia son: 
+\begin{itemize}
+\item apertura a la experiencia (O) - Innovador vs conservador
+\item escrupolosidad (C) - Concienzudo vs descuidado
+\item extroversi\'on (E) - Extrovertido vs t\'imido
+\item amabilidad (A) - Simp\'atico vs serio
+\item estabilidad (S) - Estable emocionalmente vs neur\'otico
+\end{itemize}
+Dado un texto escrito de forma an\'onima se obtendr\'a una medida predictiva para cada uno de estos rasgos que definir\'a al autor en la proporci\'on m\'as ajustada posible.
+
+\section{Estado de la cuesti\'on}
+
+El reconocimiento autom\'atico de la personalidad a partir del texto ha sido abordado por trabajos pioneros desde hace unos 10 a\~nos. Argamon [\ref{bib:arg}] se centr\'o en dos de los rasgos de los Cinco Grandes (Extroversi\'on y Estabilidad Emocional), medidos por medio de autoinformes. En su estudio se us\'o el algoritmo de Support Vector Machines, complementado con categor\'ias de palabras y frecuencia relativa de palabras funcionales, para reconocer estos dos rasgos. 
+
+De forma similar, Oberlander y Nowson [\ref{bib:obe}] trabajaron en la clasificaci\'on de los tipos de personalidad de los bloggers mediante la extracci\'on de patrones de forma ascendente. 
+
+Mairesse en [\ref{bib:mai}], investigaron sistem\'aticamente la utilidad de diferentes conjuntos de caracter\'isticas textuales que explotan los diccionarios psicoling\"u\'isticos (LIWC4 y MRC5). Extrajeron modelos de personalidad de autoinformes y datos observados, y obtuvieron que el rasgo de la apertura a la experiencia produc\'ia el mejor rendimiento.
+
+En a\~nos m\'as recientes, el inter\'es de los investigadores se ha enfocado m\'as en la predicci\'on de la personalidad usando corpus de datos de redes sociales, como Twitter y Facebook. Explotando caracter\'isticas ling\"u\'isticas en actualizaciones de estado, caracter\'isticas sociales como conteo de amigos y actividad diaria [\ref{bib:gol}, \ref{bib:que}, \ref{bib:cel}].\\
+Kosinski [\ref{bib:kos}] realiz\'o un an\'alisis exhaustivo de las diferentes caracter\'isticas, incluido el tama\~no de la red de amistad, el recuento de fotos cargadas y los eventos asistidos, y encontr\'o las correlaciones con los rasgos de personalidad de 180000 usuarios de Facebook. Obtuvieron muy buenos resultados en la predicci\'on autom\'atica de Extroversi\'on. Bachrach et al. realiz\'o un an\'alisis exhaustivo de los rasgos de la red (tama\~no de la red de amistad, fotos cargadas, eventos atendidos, frecuencia con la que un usuario ha sido etiquetado en las fotos)
+%4 http://www.liwc.net/
+%5 http://www.psych.rl.ac.uk/
+%que se correlacionan con la personalidad de 180,000 usuarios de Facebook. Predijieron los puntajes de personalidad usando la regresi髇 lineal multivariada e informaron buenos resultados en la extroversi髇. Schwartz y col. [68] analizaron 700 millones de palabras, frases e instancias tem醫icas recopiladas de los mensajes de Facebook de 75,000 voluntarios, quienes tambi閚 completaron una prueba de personalidad Big Five est醤dar. Sus resultados mostraron correlaciones interesantes entre el uso de palabras y los rasgos de personalidad. Por ejemplo, los extrovertidos eran m醩 propensos a mencionar palabras sociales, mientras que los introvertidos eran m醩 propensos a mencionar palabras relacionadas con actividades solitarias. Las personas neur髏icas, sin embargo, usan desproporcionadamente las frases "enfermo de" y la palabra "deprimido", mientras que individuos emocionalmente estables escribieron sobre actividades sociales agradables que pueden fomentar una mayor estabilidad emocional, como "deportes", "vacaciones", "playa". "," Iglesia ", o" equipo ". Dado que casi todos los investigadores que trabajaron en el reconocimiento de la personalidad utilizaron diferentes medidas y procedimientos de evaluaci髇, no es f醕il definir exactamente el estado del arte con respecto a la eficacia de la clasificaci髇. Este hecho conduce a campa馻s de evaluaci髇 como el Taller sobre reconocimiento de personalidad computacional [11].
+%Existen muchas aplicaciones de reconocimiento automatizado de la personalidad, por ejemplo en detecci髇 de seguridad y enga駉 [15], o sistemas de recomendaci髇 [65]. Recientemente, se ha encontrado que los juicios de personalidad basados ??en computadora son m醩 precisos que los realizados por humanos [75]. En Vinciarelli y Mohammadi se puede encontrar una muy buena visi髇 general del trabajo reciente realizado en el reconocimiento autom醫ico de la personalidad [72].
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                       ANALISIS Y METODOLOG虯   PROPUESTA                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{An\'alisis y Metodolog\'ia Propuesta}
+
+En el presente cap\'itulo se analiza el problema planteado, se realiza un estudio de la informaci\'on disponible y las posibles formas de abordarla para la consecuci\'on de los objetivos planteados.
+
+\section{Obtenci\'on de los datos} %FUENTE www.kicorangel.com/es/el-uso-del-lenguaje-en-los-diferentes-canales-de-internet/
+%The data was collected from Twitter by means of advertising campaign. The gender and age group is therefore user specified while the personality trait labels are gold standard self-assessed with the BFI-10 test (Rammstedt \& John, 2007) and then normalized between -0.5 and +0.5. We will assume that this will reveal accurately the personality traits.
+
+Los datos fueron obtenidos de Twitter por medio de una campa\~na publicitaria. El g\'enero y la edad fueron especificados por el usuario mientras que los rasgos de la personalidad fueron calculados mediante el test BFI-10 (Rammstedt \& John, 2007) y normalizados en valores comprendidos entre -0.5 y +0.5. Asumimos que estos resultados definen con precisi\'on los rasgos de personalidad.
+
+%During the PAN CLEF 2015 campaign, a system must provide the answer for each problem in an XML structure. The response for the gender is a fixed binary choice and for the age group one of four fixed entries is expected. The Big Five personality traits are each answered with a value between -0.5 and +0.5.
+Durante la campa\~na PAN CLEF 2015, son generadas estructuras XML para cada respuesta obtenida. La respuesta de g\'enero es codificada con un car\'acter binario y la edad se agrupa en cuatro bloques. Los rasgos de personalidad \textit{Big Five} se codifican con valores comprendidos entre -0.5 y +0.5.
+
+%As a measure for the personality traits, the PAN CLEF campaign adopts the Root Mean Square Error (RMSE). This evaluation measure takes into account how far off the predicted value is compared to the values actually observed independent of the direction. The exact formulation is given in Equation 1 with a minimal value of 1.0 and 0.0 as an optimum value.
+Para valorar la bondad del modelo de predicci\'on se usar\'a como medida el Root Mean Square Error (RMSE), cuya f\'ormula se defini\'o en la secci\'on \ref{sssec:error}
+
+%in which n is the number of problems, f the actual correct trait factor value, and ?? the ?? predicted value for problem i of this trait factor. This measure differentiates between a value close to the actual value and an answer far away from the truth. The overall RMSE is the arithmetic mean of the RMSE of the five factors in the Big Five personality trait model.
+\section{An\'alisis del dataset}
+
+Se dispone de un dataset con informaci\'on clasificada de 190 usuarios de Twitter. %Divididos en dos grupos, 101 para el training y 89 para el test. 
+Para cada usuario tenemos, por un lado un XML con sus tuits y un archivo \textit{es.txt} con su clasificaci\'on \textit{Big Five}.
+
+\begin{itemize}
+\item Muestra-descripci\'on del XML  y txt
+\end{itemize}
+
+\section{Metodolog\'ia Propuesta}
+En este apartado se presenta la metodolog\'ia seguida para la consecuci\'on de los objetivos planteados. El proceso de generaci\'on de modelos junto con las t\'ecnicas usadas en la predicci\'on y su integraci\'on en la herramienta \textit{social census}.
+
+\section{Generaci\'on de \textit{Features}}
+Se llama \textit{features} a las variables o caracter\'isticas que se seleccionan para la generaci\'on de un modelo predictivo. Para obtener un buen modelo, es importante que las \textit{features} contengan la m\'axima informaci\'on relevante sobre la variable a predecir. 
+
+Este es un proceso de investigaci\'on en el que se pueden emplear multitud de t\'ecnicas matem\'aticas, estad\'isticas, etc y que requiere de un tiempo considerable para una reducci\'on peque\~na del \textit{RMSE}.  Por este motivo y dado que el proyecto se centra m\'as en el proceso completo de predicci\'on, se opta por un modelo sencillo de bolsa de palabras.
+
+La bolsa de palabras se construye procesando la totalidad de los documentos contenidos en el conjunto de datos de training, creando una lista ordenada de los t\'erminos utilizados de m\'as frecuente a menos frecuente y seleccionando los mil t\'erminos que m\'as se repiten.
+
+Adem\'as se contar\'a la frecuencia de uso de los s\'imbolos de puntuaci\'on: punto(\textbf{.}), coma(\textbf{,}) y dos puntos (\textbf{:}).
+
+Por lo tanto el archivo resultante, \textit{bow.txt}, ser\'a nuestro archivo de \textit{features} y contendr\'a el listado de los mil t\'erminos y los tres s\'imbolos de puntuaci\'on.
+
+\section{Generaci\'on de modelos en \textit{Weka}}%ENLACE WIKIPEDIA
+\textit{Weka} es una plataforma de software para el aprendizaje autom\'atico y la miner\'ia de datos. Contiene una colecci\'on de herramientas de visualizaci\'on y algoritmos para an\'alisis de datos y modelado predictivo, unidos a una interfaz gr\'afica de usuario para acceder f\'acilmente a sus funcionalidades.\\
+Entre las cuales se encuentra la aplicaci\'on de multitud de t\'ecnicas de aprendizaje autom\'atico y la posibilidad de generar y almacenar los modelos de predicci\'on resultantes de estas aplicaciones.
+
+\textit{Weka} posee el formato de entrada de datos definido como \textit{Attribute-Relation File Format (ARFF)}. Es un archivo de texto que relaciona una lista de atributos con una lista de instancias y que nos servir\'a como punto de partida para la generaci\'on de la l\'inea base en modelos de predicci\'on.
+
+Se genera un archivo de entrada para cada uno de los cinco rasgos de personalidad, donde la diferencia entre ellos, estriba en la variable a predecir.\\
+Para construir estos archivos nos basaremos en la bolsa de palabras definida anteriormente y en los datos de training. El \'ultimo atributo de cada archivo de entrada ser\'a el rasgo a predecir.
+
+Tendremos una instancia por cada usuario de \textit{Twitter}. Para dar un valor a cada atributo de la instancia contamos la frecuencia con la que el usuario usa cada palabra contenida en la bolsa y obtendremos un valor normalizado. Finalmente para completar el valor de la clase, lo obtenemos del training. Y haremos lo mismo para cada rasgo de personalidad que queremos predecir.
+
+Una vez que tenemos los datos cargados en Weka probaremos las diferentes t\'ecnicas que nos ofrece el programa y seleccionaremos los modelos para los cuales se obtengan los mejores resultados.
+
+Para la evaluaci\'on de los modelos, construimos un fichero de test de la misma forma que para el training y obtenemos las siguientes medidas:
+
+\begin{table}
+\begin{tabular}{c|c|c|c|l}
+\cline{2-4}
+& \multicolumn{3}{ c| }{Spanish} \\ 
+\cline{2-4}
+& Bagging&RandomForest&RandomCommitte \\ 
+\cline{1-4}
+\multicolumn{1}{ |c| } {Extroverted} & 0.1712 & 0.1749 & 0.1754 &     \\ \cline{1-4}
+\multicolumn{1}{ |c| } {Open} & 0.1476 & 0.134 & 0.1343&     \\ \cline{1-4}
+\multicolumn{1}{ |c| } {Conscientious} & 0.1499 & 0.1457 & 0.1394 &     \\ \cline{1-4}
+\multicolumn{1}{ |c| } {Agreeable} & 0.1694 & 0.1611 & 0.1662 &     \\ \cline{1-4}
+\multicolumn{1}{ |c| } {Stable} & 0.2092 & 0.2008 & 0.1981&     \\ \cline{1-4}
+\end{tabular}\label{tab:weka}
+\end{table}
+
+
+ 
+En la tabla \ref{tab:weka} se muestran los resultados obtenidos correspondientes a los valores de \textit{RMSE}. Hay que tener en cuenta que el problema que se plantea es de regresi\'on, por lo que los algoritmos usados han de ser compatibles.\\
+Por lo tanto construiremos el modelo para la predicci\'on del rasgo de personalidad Extroverted bas\'andonos en la t\'ecnica de Bagging. Random Forest para Open y Agreeable y Random Comitte para Conscientious y Stable porque son los que presentan el menor error.
+
+\section{Modulo de predicci\'on en tiempo real}
+Una vez generados los modelos y la bolsa de palabras se implementar\'a el m\'odulo de predicci\'on en tiempo real. El funcionamiento b\'asico consiste en, dado un texto de entrada obtener cinco datos de salida, que corresponder\'an a una medida de predicci\'on para cada rasgo de personalidad del autor.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=\textwidth]{uml_predict}
+        \caption{Diagrama UML}
+        \label{fig:uml_predict}
+    \end{subfigure}
+ \end{figure}
+
+\section{Integraci\'on}
+\begin{itemize}
+\item Construcci\'on de una librer\'ia
+\end{itemize}
+ public double PredictOpen(String text)
+ public double PredictConscientious(String text)
+ public double PredictAgreeable(String text)
+ public double PredictStable(String text)
+
+\section{Pruebas de carga}
+
+\section{Mejora de resultados}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                 CASOS de USO                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Casos de Uso}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                 CONCLUSIONS                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Conclusions}
+
+????? ????????????? ????????????? ????????????? ????????????? ????????????? 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                BIBLIOGRAFIA                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{10}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MODEL D'ARTICLE                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibitem{light}\label{bib:cos}
+   Costa, P.T., McCrae, R.R.
+   \newblock The revised neo personality inventory (neo-pi-r).
+   \newblock \textit{The SAGE handbook of personality theory and assessment 2}, 179-198 (2008)
+
+\bibitem{light}\label{bib:arg}
+   Sushant, S.A., Argamon, S., Dhawle, S., Pennebaker, J.W.
+   \newblock  Lexical predictors of personality type
+   \newblock \textit{ In Proceedings of the Joint Annual Meeting of the Interface and the Classification Society of North America}, (2005)
+   
+\bibitem{light}\label{bib:obe}
+   Oberlander, J., Nowson, S.
+   \newblock Whose thumb is it anyway?: classifying author personality from weblog text. 
+   \newblock \textit{Proceedings of the COLING/ACL on Main conference poster sessions}, pp. 627-634. Association for Computational Linguistics (2006)
+      
+\bibitem{light}\label{bib:mai}
+   Mairesse, F., Walker, M.A., Mehl, M.R., Moore, R.K.
+   \newblock Using linguistic cues for the automatic recognition of personality in conversation and text.
+   \newblock \textit{Journal of Artificial Intelligence Research 30(1)},  457-5
+   
+\bibitem{light}\label{bib:gol}
+Golbeck, J., Robles, C., Turner, K.
+   \newblock Predicting personality with social media.
+   \newblock \textit{CHI?11 Extended Abstracts on Human Factors in Computing Systems.}, pp. 253-262. ACM (2011)
+
+\bibitem{light}\label{bib:que}
+Quercia, D., Lambiotte, R., Stillwell, D., Kosinski, M., Crowcroft, J.
+   \newblock The personality of popular facebook users.
+   \newblock \textit{Proceedings of the ACM 2012 conference on Computer Supported Cooperative Work.}, p. 955-964. ACM (2012)
+   
+\bibitem{light}\label{bib:cel}
+Celli, F., Polonio, L.
+   \newblock Relationships between personality and interactions in facebook
+   \newblock \textit{Social Networking: Recent Trends, Emerging Issues and Future Outlook}, pp. 41-54. Nova Science Publishers, Inc (2013)
+
+%: 
+\bibitem{light}\label{bib:kos}
+Kosinski, M., Bachrach, Y., Kohli, P., Stillwell, D., Graepel, T.
+   \newblock Manifestations of user personality in website choice and behaviour on online social networks.
+   \newblock \textit{Machine Learning}, pp. 1-24 (2013)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MODEL DE LLIBRE                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibitem{ifrah}
+   Georges Ifrah.
+   \newblock \textit{Historia universal de las cifras}.
+   \newblock Espasa Calpe, S.A., Madrid, sisena edici贸, 2008.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MODEL D'URL                                                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibitem{WAR}
+   Comunicat de premsa del Departament de la Guerra, 
+   em茅s el 16 de febrer de 1946. 
+   \newblock Consultat a 
+   \url{http://americanhistory.si.edu/comphist/pr1.pdf}.
+
+\end{thebibliography}
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                           AP脠NDIXS  (Si n'hi ha!)                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\APPENDIX
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         LA CONFIGURACIO DEL SISTEMA                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Configuraci贸 del sistema}
+
+????? ????????????? ????????????? ????????????? ????????????? ?????????????
+
+\section{Fase d'inicialitzaci贸}
+
+????? ????????????? ????????????? ????????????? ????????????? ?????????????
+
+\section{Identificaci贸 de dispositius}
+
+????? ????????????? ????????????? ????????????? ????????????? ?????????????
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               ALTRES  AP脠NDIXS                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{??? ???????????? ????}
+
+????? ????????????? ????????????? ????????????? ????????????? ????????????? 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                              FI DEL DOCUMENT                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

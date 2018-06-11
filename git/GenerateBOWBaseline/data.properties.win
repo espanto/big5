@@ -1,0 +1,4 @@
+path=C:\Users\t12711\Documents\mis\bigdata\big5\data\pan-ap2015-training\es
+truth=C:\Users\t12711\Documents\mis\bigdata\big5\data\pan-ap2015-training\es.txt
+bow=C:\Users\t12711\Documents\mis\bigdata\big5\data\pan-ap2015-test\es.txt
+output=C:\Users\t12711\Documents\mis\bigdata\big5\data\pan-ap2015-test-es-test-{task}-extended.arff

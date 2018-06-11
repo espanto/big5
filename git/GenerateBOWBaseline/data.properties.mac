@@ -1,0 +1,4 @@
+path=/Users/sun/Documents/big5/data/pan-ap2015-training/es/
+truth=/Users/sun/Documents/big5/data/pan-ap2015-training/es.txt
+bow=/Users/sun/Documents/big5/data/pan-ap2015-test/bow.txt
+output=/Users/sun/Documents/big5/data/pan-ap2015-test-es-test-{task}-extended.arff
